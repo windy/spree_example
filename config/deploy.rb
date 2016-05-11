@@ -11,7 +11,7 @@ set :branch, 'master'
 
 set :rvm_path, '/usr/local/rvm/scripts/rvm'
 
-set :shared_paths, ['config/database.yml', 'config/application.yml', 'log', 'public/spree']
+set :shared_paths, ['config/database.yml', 'config/application.yml', 'log', 'public/spree', 'tmp']
 
 set :user, 'ruby'
 
@@ -25,6 +25,12 @@ task :setup => :environment do
 
   queue! %[mkdir -p "#{deploy_to}/#{shared_path}/config"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/config"]
+
+  queue! %[mkdir -p "#{deploy_to}/shared/pids/"]
+  queue! %[mkdir -p "#{deploy_to}/shared/tmp/sockets"]
+  queue! %[mkdir -p "#{deploy_to}/shared/tmp/pids"]
+  queue! %[mkdir -p "#{deploy_to}/shared/log/"]
+  queue! %[mkdir -p "#{deploy_to}/shared/public/spree"]
 
   queue! %[touch "#{deploy_to}/#{shared_path}/config/database.yml"]
   queue! %[touch "#{deploy_to}/#{shared_path}/config/application.yml"]
